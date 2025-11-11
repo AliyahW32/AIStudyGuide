@@ -1,0 +1,30 @@
+{
+  "name": "aistudyguide",
+  "version": "1.0.0",
+  "description": "A starter code for a online interactive study guide",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AliyahW32/AIStudyGuide.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AliyahW32/AIStudyGuide/issues"
+  },
+  "homepage": "https://github.com/AliyahW32/AIStudyGuide#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mammoth": "^1.11.0",
+    "multer": "^2.0.2",
+    "openai": "^6.8.1",
+    "pdf-parse": "^2.4.5"
+  }
+}

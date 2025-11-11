@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Study Guide</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>📚 AI Study Guide</h1>
+    <p>Upload your notes or document to generate a detailed summary.</p>
+
+    <form id="uploadForm">
+      <input type="file" id="fileInput" accept=".txt,.pdf,.docx" required />
+      <button type="submit">Generate Summary</button>
+    </form>
+
+    <div id="output">
+      <h2>AI Summary:</h2>
+      <pre id="summaryText"></pre>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
