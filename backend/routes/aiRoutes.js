@@ -5,7 +5,6 @@ import multer from "multer";
 import fs from "fs";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
-const pdfParse = require("pdf-parse");
 import mammoth from "mammoth";
 import OpenAI from "openai";
 
@@ -25,19 +24,24 @@ router.post("/summarize", upload.single("file"), async (req, res) => {
 
     // ---- Handle file types ----
     if (mimeType === "application/pdf") {
-      const dataBuffer = fs.readFileSync(filePath);
-      const pdfData = await pdfParse(dataBuffer);
-      fileContent = pdfData.text;
-    } else if (
-      mimeType ===
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    ) {
-      const dataBuffer = fs.readFileSync(filePath);
-      const result = await mammoth.extractRawText({ buffer: dataBuffer });
-      fileContent = result.value;
-    } else {
-      fileContent = fs.readFileSync(filePath, "utf8");
-    }
+  // PDF case
+  const dataBuffer = fs.readFileSync(filePath);
+  const { default: pdfParse } = await import("pdf-parse");
+  const pdfData = await pdfParse(dataBuffer);
+  fileContent = pdfData.text;
+} else if (
+  mimeType ===
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+) {
+  // DOCX case
+  const dataBuffer = fs.readFileSync(filePath);
+  const result = await mammoth.extractRawText({ buffer: dataBuffer });
+  fileContent = result.value;
+} else {
+  // TXT and others
+  fileContent = fs.readFileSync(filePath, "utf8");
+}
+
 
     console.log("📝 Extracted text preview:", fileContent.slice(0, 200));
 
@@ -48,10 +52,14 @@ router.post("/summarize", upload.single("file"), async (req, res) => {
       });
     }
 
-    const prompt = `
-    Summarize the following notes and highlight 3–5 key topics and insights:
-    ${fileContent.slice(0, 5000)}
-    `;
+   const focus = req.body.focus || ""; // new
+const prompt = `
+Summarize the following notes and highlight 3–5 key topics and insights.
+${focus ? `Focus specifically on: ${focus}.` : ""}
+---
+${fileContent.slice(0, 5000)}
+`;
+
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",

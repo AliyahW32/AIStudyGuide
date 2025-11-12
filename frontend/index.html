@@ -12,9 +12,19 @@
     <p>Upload your notes or document to generate a detailed summary.</p>
 
     <form id="uploadForm">
-      <input type="file" id="fileInput" accept=".txt,.pdf,.docx" required />
-      <button type="submit">Generate Summary</button>
-    </form>
+  <input type="file" id="fileInput" accept=".txt,.pdf,.docx" required />
+
+  <!-- New focus input -->
+  <input
+    type="text"
+    id="focusInput"
+    placeholder="(Optional) Focus on a specific topic..."
+    style="display:block; margin:10px auto; width:80%; padding:8px; border-radius:6px; border:1px solid #ccc;"
+  />
+
+  <button type="submit">Generate Summary</button>
+</form>
+
 
     <div id="output">
       <h2>AI Summary:</h2>
